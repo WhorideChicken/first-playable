@@ -11,6 +11,17 @@ versioning follows [SemVer](https://semver.org/) (0.x may break between minors).
 - v0.4: playtest → spec feedback loop refinement
 - v1.0: primitive-only example project, Windows/macOS validation, release automation
 
+## [0.2.1] - 2026-07-30
+
+### Added
+- README rewritten as a friendly step-by-step guide: quick start, Unity-side
+  MCP setup (`com.unity.ai.assistant` → Project Settings → AI → Unity MCP
+  Server), update instructions with the full-name gotcha, troubleshooting
+- Setup GIF captured from a real Unity 6.5 editor (`docs/media/unity-mcp-setup.gif`)
+- `references/unity-mcp.md`: official Unity MCP Server documented as the
+  primary path, including `Unity_RunCommand` caveats (CommandScript class
+  name, blocked namespaces, per-tool enable list)
+
 ## [0.2.0] - 2026-07-30
 
 ### Added

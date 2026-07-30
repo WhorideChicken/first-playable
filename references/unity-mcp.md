@@ -20,7 +20,30 @@ At session start (bootstrap/verify), discover what the connected server
 actually exposes by listing its tools — tool names differ per implementation
 (e.g. `read_console` vs `console_logs`). Match by capability, not by name.
 
-## 2. Known implementations (verify before recommending — this ecosystem moves fast)
+## 2. The official path first: Unity MCP Server (Unity 6)
+
+Unity 6 ships an official MCP server via the AI Assistant package. **Recommend
+this before any community implementation** — it is signed, project-aware, and
+has a built-in client approval flow. Setup:
+
+1. Package Manager (`Window → Package Management → Package Manager` in Unity
+   6.5+; `Window → Package Manager` in earlier versions) → `[+]` →
+   **Install package by name…** → `com.unity.ai.assistant`
+2. `Edit → Project Settings → AI → Unity MCP Server` → **Start**
+   (Status: Running). Note the useful toggles on this page: Validation Level,
+   Auto-approve in Batch Mode, and the per-tool enable list (Tools section).
+3. Launch `claude` in the project folder → `claude-code` appears under
+   **Connected Clients** → the user approves it once (shows **Accepted**).
+
+Its tools are typically named `Unity_*` (e.g. `Unity_RunCommand`,
+`Unity_GetConsoleLogs`). `Unity_RunCommand` compiles and executes C# in the
+Editor — one capability that covers scene edits, settings, and most Editor
+automation. Caveats: script classes must be `internal class CommandScript :
+IRunCommand`, and some namespaces (e.g. `System.Reflection` imports) are
+blocked by its validator. Only a subset of tools may be enabled — check the
+Tools list in the settings page rather than assuming.
+
+## 3. Community implementations (alternatives — verify before recommending)
 
 - **CoplayDev/unity-mcp** — widely used community server; Python bridge + Unity package.
 - **CoderGamester/mcp-unity** — Node-based, broad Editor coverage.
@@ -31,7 +54,7 @@ steps change), confirm the Unity package side is imported AND the server side
 is registered in Claude Code (`claude mcp list` should show it), then verify
 round-trip by reading the Unity console.
 
-## 3. Graceful degradation — the manual verification protocol
+## 4. Graceful degradation — the manual verification protocol
 
 Without MCP, `verify` must NOT silently skip steps. It switches to guided
 manual mode and reports each step as `MANUAL_REQUIRED`:
@@ -50,7 +73,7 @@ distinct from tool-verified — or `UNVERIFIED` if the user skipped them.
 An alternative automated fallback when the Editor can be closed: Unity CLI
 batch mode test runs (see `unity-testing.md` §2). Offer it, don't force it.
 
-## 4. Scene-edit fallback without MCP
+## 5. Scene-edit fallback without MCP
 
 For bootstrap/feature scene work without MCP, generate a **one-shot Editor
 script** under `Assets/_Game/Scripts/Editor/` exposing a menu item
