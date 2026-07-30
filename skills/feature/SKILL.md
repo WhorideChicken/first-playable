@@ -60,6 +60,10 @@ Draft | Approved | Implementing | Verified
 
 ## Implementation rules
 
+- Read `references/unity-testing.md` in this plugin before implementing — it
+  covers the humble-object split (pure logic in `Game.Core`, thin
+  MonoBehaviour adapters), EditMode/PlayMode test patterns, common PlayMode
+  pitfalls, and what NOT to test.
 - Follow the asmdef boundaries set up by bootstrap; check them before adding code.
 - Tuning values marked `TEMPORARY` go in serialized fields or configs — never
   scattered magic numbers.

@@ -16,7 +16,10 @@ next experiment.
 - Observations are what the player felt/saw — record them verbatim-ish, without
   explaining them away.
 - Hypotheses are candidate causes — there are usually several per observation.
-  Never jump straight from feeling to fix.
+  Never jump straight from feeling to fix. Use `references/game-feel.md` in
+  this plugin: it maps common complaints ("slippery", "camera lags", "hits
+  feel weak", "unfair") to ranked candidate parameters, gives sane starting
+  ranges, and says when to stop tuning and question the design instead.
 - The next experiment changes **one variable at a time**. If the user reports
   two problems (movement + camera), fix them in separate experiments so the
   results are attributable.

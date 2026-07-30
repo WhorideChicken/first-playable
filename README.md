@@ -74,16 +74,17 @@ Then start with `/first-playable:design` and describe your game idea.
 
 ## Status & roadmap
 
-Early development. Current version: **v0.1** — design workflow (design,
-review-design, scope) and document templates.
+Early development. Current version: **v0.2** — design workflow, Unity
+reference docs (setup, testing, MCP, game feel), asmdef templates, and the
+`unity-guard` safety hook.
 
-| Version | Scope |
-|---|---|
-| v0.1 | Design interview, review, scoping, templates |
-| v0.2 | Unity bootstrap with preflight checks + safety hooks |
-| v0.3 | Feature specs, implementation, Unity verification |
-| v0.4 | Playtest structuring and spec feedback loop |
-| v1.0 | Primitive-only example project, Windows/macOS validation, release automation |
+| Version | Scope | Status |
+|---|---|---|
+| v0.1 | Design interview, review, scoping, templates | done |
+| v0.2 | Unity references, asmdef templates, safety hooks | done |
+| v0.3 | feature/verify validated end-to-end on a real Unity 6 project | next |
+| v0.4 | Playtest structuring and spec feedback loop | planned |
+| v1.0 | Primitive-only example project, Windows/macOS validation, release automation | planned |
 
 See [CHANGELOG.md](CHANGELOG.md) for details and
 [CONTRIBUTING.md](CONTRIBUTING.md) if you want to help.

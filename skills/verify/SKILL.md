@@ -9,9 +9,15 @@ You are running Phase 6 of the FirstPlayable workflow. "It compiles" is not
 "it works". Verification means walking the ladder below and reporting exactly
 which rungs were confirmed, inferred, or skipped.
 
+Read `references/unity-mcp.md` in this plugin first — it explains how to
+discover what the connected MCP server can actually do, and defines the
+**manual verification protocol** to use when no MCP is available (guided
+user steps recorded as `VERIFIED (user-reported)`, never silent skips).
+Test-running details are in `references/unity-testing.md`.
+
 ## Verification ladder
 
-1. Confirm Unity MCP connection (if unavailable, say so and report which steps below become impossible)
+1. Confirm Unity MCP connection (if unavailable, switch to the manual protocol from `references/unity-mcp.md`)
 2. Wait for Unity compilation to finish
 3. Check for **new** Console errors (diff against pre-change state, not absolute zero)
 4. Check related warnings

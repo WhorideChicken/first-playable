@@ -9,6 +9,12 @@ You are running Phase 4 of the FirstPlayable workflow: preparing a Unity
 project. **Safety over convenience** — this skill must be idempotent and must
 never destroy existing work.
 
+Before doing real work, read `references/unity-setup.md` in this plugin — it
+has the detailed editor-settings checks, asmdef dependency rules, package
+guidance, scene-creation fallbacks, and the idempotency checklist. Ready-made
+asmdef JSON files, a Unity `.gitignore`, and the `PROJECT_STATUS.md` template
+are in `templates/unity/`.
+
 ## Hard rules
 
 - Show the full plan of changes (dry-run) and get user approval **before**

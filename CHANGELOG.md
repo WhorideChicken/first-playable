@@ -7,10 +7,33 @@ versioning follows [SemVer](https://semver.org/) (0.x may break between minors).
 ## [Unreleased]
 
 ### Planned
-- v0.2: bootstrap preflight hardening, risk-detection hooks
 - v0.3: feature/verify end-to-end validation against a real Unity 6 project
 - v0.4: playtest → spec feedback loop refinement
 - v1.0: primitive-only example project, Windows/macOS validation, release automation
+
+## [0.2.0] - 2026-07-30
+
+### Added
+- `unity-guard` PreToolUse hook: asks for confirmation before direct Unity
+  YAML edits, `Assets/ThirdParty` modifications, and `.meta` writes/deletions
+  (fail-open by design)
+- `references/unity-setup.md`: editor settings, git config, asmdef
+  architecture with dependency rules, package guidance, scene-creation
+  fallbacks, bootstrap idempotency checklist
+- `references/unity-testing.md`: humble-object pattern for engine-free rule
+  testing, EditMode/PlayMode patterns, PlayMode pitfall table, spec↔test
+  coverage contract
+- `references/unity-mcp.md`: capability-based MCP discovery, known
+  implementations, manual verification protocol for MCP-less setups
+- `references/game-feel.md`: complaint → candidate-parameter diagnosis tables
+  (movement, camera, feedback, difficulty) with starting value ranges
+- `templates/unity/`: six ready-made asmdef files (including engine-free
+  `Game.Core`), Unity `.gitignore`, `PROJECT_STATUS.md` template
+
+### Changed
+- `bootstrap`, `feature`, `verify`, `playtest` skills now delegate deep
+  guidance to the new reference docs (progressive disclosure — skill bodies
+  stay small)
 
 ## [0.1.0] - 2026-07-30
 
