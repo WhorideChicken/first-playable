@@ -1,0 +1,20 @@
+{
+  "name": "first-playable",
+  "version": "0.1.0",
+  "description": "An AI-assisted workflow that turns game ideas into tested, playable Unity builds.",
+  "author": {
+    "name": "WooWon Jin",
+    "url": "https://github.com/WhorideChicken"
+  },
+  "homepage": "https://github.com/WhorideChicken/first-playable",
+  "repository": "https://github.com/WhorideChicken/first-playable",
+  "license": "MIT",
+  "keywords": [
+    "unity",
+    "game-development",
+    "game-design",
+    "prototyping",
+    "claude-code",
+    "unity-mcp"
+  ]
+}

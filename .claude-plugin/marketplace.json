@@ -1,0 +1,14 @@
+{
+  "name": "first-playable",
+  "owner": {
+    "name": "WooWon Jin",
+    "url": "https://github.com/WhorideChicken"
+  },
+  "plugins": [
+    {
+      "name": "first-playable",
+      "source": "./",
+      "description": "An AI-assisted workflow that turns game ideas into tested, playable Unity builds."
+    }
+  ]
+}
