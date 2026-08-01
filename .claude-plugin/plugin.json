@@ -1,6 +1,6 @@
 {
   "name": "first-playable",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "An AI-assisted workflow that turns game ideas into tested, playable Unity builds.",
   "author": {
     "name": "WooWon Jin",

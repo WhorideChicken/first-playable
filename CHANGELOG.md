@@ -10,6 +10,16 @@ versioning follows [SemVer](https://semver.org/) (0.x may break between minors).
 - v0.4: playtest → spec feedback loop refinement
 - v1.0: primitive-only example project, Windows/macOS validation, release automation
 
+## [0.3.1] - 2026-08-01
+
+### Added
+- Field report now links to its source: the original operations log in
+  [MousePotatoGames/RBB-public](https://github.com/MousePotatoGames/RBB-public),
+  a public Unity 6 project built with this workflow
+- `CONTRIBUTING.md`: release rule — bump the version for *any* content change,
+  since `claude plugin update` compares versions, not commits (a docs-only push
+  under the same version leaves installed users on a stale copy)
+
 ## [0.3.0] - 2026-08-01
 
 Hardening pass driven by a real Unity 6 project run through F01–F07. Every

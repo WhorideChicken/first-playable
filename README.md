@@ -2,7 +2,7 @@
 
 **An AI-assisted workflow that turns game ideas into tested, playable Unity builds.**
 
-[![Version](https://img.shields.io/badge/version-0.3.0-blue)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-0.3.1-blue)](CHANGELOG.md)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![Claude Code Plugin](https://img.shields.io/badge/Claude%20Code-plugin-8A63D2)](https://claude.com/claude-code)
 

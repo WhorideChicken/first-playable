@@ -10,6 +10,12 @@ them produced *passing checks with wrong conclusions* rather than crashes.
 Useful if you want to know what this workflow is actually defending against
 before adopting it.
 
+The project it came from is public too:
+[MousePotatoGames/RBB-public](https://github.com/MousePotatoGames/RBB-public) —
+including the [original operations log](https://github.com/MousePotatoGames/RBB-public/blob/main/Docs/Process/WORKFLOW_PITFALLS.md)
+(Korean) and the `Docs/` tree this workflow generates in practice
+(game design, feature specs, verification reports, playtest records).
+
 ## Primitive-only sample project (planned — v1.0)
 
 A runnable Unity 6 example will live here:

@@ -15,6 +15,13 @@ contributions right now are **real-world usage reports**.
 4. **Unity coverage.** Testing bootstrap/verify against different Unity 6
    setups (URP/HDRP/Built-in, different MCP servers) and documenting results.
 
+## Releasing
+
+**Bump `version` in `.claude-plugin/plugin.json` for every content change**,
+including docs-only ones. `claude plugin update` compares version numbers, not
+commits — pushing new content under an existing version means installed users
+are told "already at the latest version" and silently keep the stale copy.
+
 ## Ground rules
 
 - Keep the core philosophy: playable-first, labeled decisions, labeled

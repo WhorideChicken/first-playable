@@ -8,8 +8,11 @@ with the workflow driving a Unity MCP connection — no hypotheticals, no
 "potential risks". It is published because a workflow that claims *"verified
 means you ran it"* should be able to show its own failures.
 
-The full original operations log (Korean) lives in the game project as
-`Docs/Process/WORKFLOW_PITFALLS.md`. This is the distilled, English version.
+**Source:** the original operations log, written by the developer as it
+happened —
+[`Docs/Process/WORKFLOW_PITFALLS.md`](https://github.com/MousePotatoGames/RBB-public/blob/main/Docs/Process/WORKFLOW_PITFALLS.md)
+in [MousePotatoGames/RBB-public](https://github.com/MousePotatoGames/RBB-public)
+(Korean). This page is the distilled English version.
 
 ---
 
