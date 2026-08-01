@@ -211,6 +211,16 @@ features and tests are affected.
 **Safe by default.** Approval gates before implementation, dry-runs before
 writes, the unity-guard hook, and no direct Unity YAML edits — ever.
 
+### Why these rules exist
+
+They aren't theoretical. v0.3.0 was written from a real Unity 6 project run,
+where six of eight incidents were *passing checks with wrong conclusions* —
+including one measurement that concluded the exact opposite of what a human
+found in 30 seconds of play.
+
+📋 **[Read the field report](examples/field-report-unity-6.md)** — the
+incidents, the costs, and what each one changed.
+
 ---
 
 ## Troubleshooting

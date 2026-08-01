@@ -16,6 +16,10 @@ Hardening pass driven by a real Unity 6 project run through F01–F07. Every
 change below traces to an incident that actually happened, not a hypothetical.
 
 ### Added
+- **`examples/field-report-unity-6.md`** — the incidents behind this release,
+  published in full: what broke, what it cost, and what each one changed
+- `templates/unity/Game.Editor.asmdef` (the architecture referenced it; the
+  template was missing)
 - **Play-mode deadlock guard** (`templates/unity/PlayModeMarker.cs` +
   `unity-guard` hook): editing a script during play mode defers recompilation,
   which locks the MCP bridge with no way to exit play mode — only a human

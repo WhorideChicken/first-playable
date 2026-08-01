@@ -15,7 +15,7 @@
 using System.IO;
 using UnityEditor;
 
-namespace Game.EditorTools
+namespace Game.Editor
 {
     [InitializeOnLoad]
     internal static class PlayModeMarker
