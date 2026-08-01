@@ -2,7 +2,7 @@
 
 **An AI-assisted workflow that turns game ideas into tested, playable Unity builds.**
 
-[![Version](https://img.shields.io/badge/version-0.2.1-blue)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-0.3.0-blue)](CHANGELOG.md)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![Claude Code Plugin](https://img.shields.io/badge/Claude%20Code-plugin-8A63D2)](https://claude.com/claude-code)
 
@@ -173,9 +173,12 @@ Behind the skills: three agents (`game-designer`, plus read-only
 
 ### The safety hook
 
-Installing the plugin also activates `unity-guard`, which catches three
+Installing the plugin also activates `unity-guard`, which catches four
 classic AI-assisted-Unity accidents **before they happen** and asks you first:
 
+- **editing a script while Unity is in play mode** — this deadlocks the whole
+  session (Unity defers the recompile, MCP locks up, and nothing can exit play
+  mode but your own hand on the Stop button)
 - editing `.unity` / `.prefab` / `.asset` files as raw text (corrupts scenes)
 - modifying anything under `Assets/ThirdParty` (lost on update, license risk)
 - writing or deleting `.meta` files (silently breaks asset references)
@@ -259,8 +262,8 @@ in the Unity settings page. If it still fails, check
 |---|---|---|
 | v0.1 | Design interview, review, scoping, templates | ✅ done |
 | v0.2 | Unity references, asmdef templates, unity-guard hook, official Unity MCP setup docs | ✅ done |
-| v0.3 | feature/verify validated end-to-end on a real Unity 6 project | 🔜 next |
-| v0.4 | Playtest structuring and spec feedback loop | planned |
+| v0.3 | Hardening from a real Unity 6 project run: play-mode deadlock guard, evidence rules for instrumented measurements, vacuous-test detection | ✅ done |
+| v0.4 | Playtest structuring and spec feedback loop | 🔜 next |
 | v1.0 | Primitive-only example project, Windows/macOS validation, release automation | planned |
 
 Details in [CHANGELOG.md](CHANGELOG.md). Want to help? See

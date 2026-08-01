@@ -10,6 +10,15 @@ you audit, you report, you do not fix.
 Audit focus:
 - Does every behavior rule in the Feature Spec have a corresponding EditMode or
   PlayMode test? List the uncovered rules by ID.
+- **Would each test actually fail if its rule were broken?** Judge by the
+  assertions, not the test name. Two failure patterns to hunt specifically:
+  (a) tests that assert only an *end* state for transient behavior (hit-stop,
+  cooldowns, invulnerability) and therefore pass when it never triggered;
+  (b) tests whose name promises more than they check (e.g. a despawn test that
+  only verifies the corpse exists). Both show up in spec tables as covered.
+- Do runtime/instrumented claims state their measurement conditions? Any
+  negative finding ("X never triggers") backed only by instrumentation is
+  unsound — flag it.
 - Do test names/descriptions reference the rule IDs they cover?
 - Does the Verification Report distinguish VERIFIED / INFERRED / UNVERIFIED /
   MANUAL_REQUIRED honestly? Flag any claim presented stronger than its

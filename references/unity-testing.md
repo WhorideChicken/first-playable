@@ -73,6 +73,47 @@ public IEnumerator Move001_PlayerMoves_WhenInputHeld()
   (`SceneManager.LoadScene` in `[UnitySetUp]`, scene added to Build Settings
   or loaded via `LoadSceneMode` with `EditorBuildSettings` entry).
 
+### Transient state: assert that it HAPPENED before asserting that it ended
+
+Hit-stop, invulnerability, cooldowns, knockback — anything that switches on
+briefly and back off — produces tests that pass vacuously:
+
+```csharp
+// Passes even if the freeze never triggered once.
+while (stop.IsFrozen) yield return null;
+Assert.IsFalse(stop.IsFrozen);                 // already false at frame 0
+Assert.That(Time.timeScale, Is.EqualTo(1f));   // never changed
+```
+
+Both assertions describe the *end* state, which is identical to the state where
+nothing ever happened. Expose an observable counter (`FreezeCount`, `HitCount`,
+`SpawnCount`) and assert it first:
+
+```csharp
+Assert.Greater(stop.FreezeCount, 0, "hit-stop never triggered");   // it happened
+while (stop.IsFrozen) yield return null;
+Assert.That(Time.timeScale, Is.EqualTo(1f).Within(0.001f));        // it ended
+```
+
+Same rule for pooling, despawn, and respawn: asserting "the corpse is still
+there" does not verify "it returned to the pool and was reused".
+
+### `Contains()` verifies a string, not a rendering
+
+`Assert.IsTrue(label.text.Contains("생존"))` passes while the screen shows
+`□□`, because the TMP font asset has no glyph for those characters. Text
+rendering is verified by a clean console (no *"character with Unicode value …
+was not found"* warnings) plus a visual check — never by string assertions
+alone.
+
+### Waiting for test results
+
+When results are written to a file (e.g. `Temp/firstplayable_test_result.txt`),
+wait once with a generous timeout instead of polling in a loop — repeated
+round-trips are the single biggest time sink in agent-driven verification.
+Budget roughly **30s for EditMode** and **2–4 minutes for PlayMode**, and treat
+overrun as a failure to report, not a reason to keep polling.
+
 ### Common PlayMode pitfalls
 
 | Pitfall | Symptom | Fix |
@@ -99,3 +140,9 @@ For every entry under `## Behavior rules` in the spec, one of:
 3. An explicit line under `## Manual play checks` explaining why it's human-only.
 
 The `unity-qa` agent audits exactly this mapping. Unmapped rules are gaps.
+
+Match rules to tests **by what the test asserts, not by its name.** A test
+called `Enm004_DeadDrone_LingersThenDespawns` that only checks the corpse
+exists is not coverage for the despawn rule, and a spec table listing it as
+verified is actively misleading. The question to ask of every mapping: *would
+this test fail if the rule were broken?* If not, it is a gap.

@@ -58,6 +58,21 @@ Draft | Approved | Implementing | Verified
 ## Open questions
 ```
 
+## Scene wiring order (recompilation drops inspector references)
+
+Assigning inspector references and *then* editing scripts loses those
+assignments: the domain reload can null out serialized fields, and the scene
+looks wired while the game does nothing. Always:
+
+```text
+edit scripts  →  confirm compile finished  →  wire the scene  →  save
+              →  read the references back and log them
+```
+
+Every scene-wiring Editor script must ship with a `Verify()` that re-reads what
+it just assigned and logs the result. Cheap to write, and it catches both this
+failure and typo'd lookups immediately.
+
 ## Implementation rules
 
 - Read `references/unity-testing.md` in this plugin before implementing — it

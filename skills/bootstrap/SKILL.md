@@ -41,6 +41,20 @@ Report each as pass/fail/unknown before proposing changes:
 - Unity MCP connection available?
 - Existing scenes and asmdefs that could conflict
 
+### Blocking checks (fix these, don't just warn)
+
+**`PlayerSettings.runInBackground` must be `true`.** When the Editor is not
+focused — which is *always* the case while an agent drives it over MCP — play
+mode does not advance frames. Every runtime observation then silently reports
+stale values, and verification reports come out confidently wrong. Set it,
+confirm by reading it back, and record it in `Docs/PROJECT_STATUS.md`.
+
+**Install the play-mode marker.** Copy `templates/unity/PlayModeMarker.cs` to
+`Assets/_Game/Scripts/Editor/PlayModeMarker.cs`. It writes
+`Temp/firstplayable_playmode` during play mode so the `unity-guard` hook can
+block script edits that would otherwise deadlock the MCP bridge (deferred
+recompile ⇄ `isCompiling` guard — only a human pressing Stop breaks it).
+
 ## Project modes
 
 Ask which mode fits (default `Standard`):
@@ -75,6 +89,8 @@ Plus, at the project root:
   checklist). Use this plugin's `templates/CLAUDE.project.md` as the base. If a
   CLAUDE.md already exists, propose a merged diff instead of replacing it.
 - `Docs/PROJECT_STATUS.md` — current phase, what is playable, what is next.
+- `Assets/_Game/Scripts/Editor/PlayModeMarker.cs` — from
+  `templates/unity/PlayModeMarker.cs` (see Blocking checks above).
 
 ## Completion
 

@@ -24,6 +24,11 @@ next experiment.
   two problems (movement + camera), fix them in separate experiments so the
   results are attributable.
 - Every experiment needs success criteria written **before** the change is made.
+- Every experiment definition includes **how to undo it**. Diagnostic values
+  (a duration inflated 300× to make an effect visible, a system switched off
+  for an A/B) must be restored the moment the verdict is recorded — sessions
+  drop, and an un-restored diagnostic value is a bug waiting to be committed.
+  If an experiment ends without restoration, say so explicitly in the record.
 
 ## Record format
 
