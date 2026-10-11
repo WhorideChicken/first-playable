@@ -28,6 +28,15 @@ Check with `unity auth status --json` (`data.loggedIn`) and
 `unity license status --json` (`data.active`). Sign-in is browser OAuth — the
 **user** runs `unity auth login`; the agent must not attempt it.
 
+Headless with the project already open fails clearly, not silently: exit `6`,
+*"already open in a running Editor (PID …). Close it and run the command
+again."* — and it deletes the previous `--output` report before failing, so
+don't read a stale file as this run's result.
+
+`unity command quit` is broken in `0.8.0-exp.1` (fails in edit mode with a
+`DontDestroyOnLoad` error). To close the Editor, close it normally — check
+`list_open_scenes` for `isDirty` first so no save prompt blocks it.
+
 `unity pipeline install` edits `Packages/manifest.json` and
 `packages-lock.json`. That is a project change: show it, and let the user
 decide whether to commit it.

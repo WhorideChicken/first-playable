@@ -10,6 +10,23 @@ versioning follows [SemVer](https://semver.org/) (0.x may break between minors).
 - v0.5: playtest → spec feedback loop refinement
 - v1.0: primitive-only example project, Windows/macOS validation, release automation
 
+## [0.4.2] - 2026-10-12
+
+### Changed
+- README "Connect Unity" rewritten as two options — **A. Unity CLI**
+  (recommended for verification) and **B. Unity MCP** — with a comparison table
+  limited to what the field reports verified, CLI install/sign-in/pipeline
+  steps, and CLI troubleshooting entries
+- New `docs/media/unity-cli-setup.gif`: real terminal output from the project
+  (CLI version, pipeline install, live Editor ready with 160 tools, headless
+  EditMode run exiting `0` with 218 tests). Sign-in output deliberately left out
+  because it prints the account
+
+### Added
+- `references/unity-cli.md`: headless run against an open project exits `6`
+  ("already open in a running Editor") and deletes the previous report first;
+  `unity command quit` fails in `com.unity.pipeline` `0.8.0-exp.1`
+
 ## [0.4.1] - 2026-10-12
 
 The three Unity CLI tools v0.4.0 left untested, now run on the same project.

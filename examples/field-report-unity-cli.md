@@ -75,3 +75,9 @@ rule-ID traceability survives into CI. Live in the open Editor:
 | `capture_game_view` | captured the game with every window minimized, so D3 is handled | `--save_path Temp/x.png` wrote to `Assets/Temp/` and created an imported asset; cleaned up with `delete_asset` |
 
 `simulate_pointer` and overlay-UI capture are still unexercised.
+
+Found while recording the README setup GIF (v0.4.2): `unity command quit`
+fails in edit mode (`DontDestroyOnLoad` error inside the package), and a
+headless `unity test` against an open project exits `6` with a clear
+"already open in a running Editor" message, after deleting the previous report
+file.

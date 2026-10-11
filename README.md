@@ -2,7 +2,7 @@
 
 **An AI-assisted workflow that turns game ideas into tested, playable Unity builds.**
 
-[![Version](https://img.shields.io/badge/version-0.4.1-blue)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-0.4.2-blue)](CHANGELOG.md)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![Claude Code Plugin](https://img.shields.io/badge/Claude%20Code-plugin-8A63D2)](https://claude.com/claude-code)
 
@@ -66,8 +66,7 @@ Unity project.
 |---|---|---|
 | [Claude Code](https://claude.com/claude-code) | everything | CLI, desktop app, or IDE extension |
 | Unity 6 | Phases 4–7 | design phases (1–3) work without Unity |
-| Unity MCP server | Phases 4–7 | official path built into Unity — setup below |
-| Unity CLI *(optional, beta)* | Phases 4–7 | verdict-bearing test runs + an exit from the play-mode deadlock — [references/unity-cli.md](references/unity-cli.md) |
+| Unity CLI **or** Unity MCP | Phases 4–7 | how the agent reaches the Editor — [setup below](#2-connect-unity-optional-needed-from-phase-4). Optional: without either, `verify` walks you through it manually |
 
 ### 1. Install the plugin
 
@@ -90,8 +89,61 @@ for your OS user account. No per-project setup needed.
 
 ### 2. Connect Unity (optional, needed from Phase 4)
 
-Unity 6 ships an official MCP server as part of the AI Assistant package.
-Three steps, all inside the Unity Editor:
+There are two ways for the agent to reach the Unity Editor. Use either one, or
+both — they coexist, and nothing in the workflow requires a particular one.
+
+| | **A. Unity CLI** *(beta)* | **B. Unity MCP** |
+|---|---|---|
+| Test results | the exit code *is* the verdict: `0` passed, `8` ran and failed, `6` no verdict | read back from the Editor |
+| Stuck in play mode with a pending recompile | `editor_stop` / `cancel_tests` gets out | only a human pressing Stop |
+| Runtime checks | `simulate_key` holds real input; `capture_game_view` grabs the game even when Unity is minimized | via the Editor tools you enable |
+| Maturity | CLI `1.0.0-beta` + experimental `com.unity.pipeline` | official AI Assistant package (pre-release) |
+
+**Recommendation:** use the CLI for verification — every advantage above was
+confirmed on a real project ([field report](examples/field-report-unity-cli.md)).
+Keep MCP if you already have it.
+
+#### A. Unity CLI
+
+![Unity CLI setup: version check, sign-in, pipeline install, live Editor ready with 160 tools, then a headless EditMode run that exits 0 with 218 tests passed](docs/media/unity-cli-setup.gif)
+
+*Real output from this project — not mocked.*
+
+1. **Install the CLI** (then open a new terminal so `unity` is on PATH)
+
+   ```powershell
+   $env:UNITY_CLI_CHANNEL='beta'; irm https://public-cdn.cloud.unity3d.com/hub/prod/cli/install.ps1 | iex
+   ```
+
+   ```bash
+   curl -fsSL https://public-cdn.cloud.unity3d.com/hub/prod/cli/install.sh | UNITY_CLI_CHANNEL=beta bash
+   ```
+
+2. **Sign in — don't skip this.** Signed out, headless tests die on licensing
+   in about a second, and `unity open` waits silently at Hub's sign-in screen.
+
+   ```bash
+   unity auth login
+   ```
+
+3. **Add the Pipeline package** — run inside your Unity project. It edits
+   `Packages/manifest.json`; commit it if you keep it.
+
+   ```bash
+   unity pipeline install
+   ```
+
+4. **Open the Editor** (`unity open .` or from Hub) and check it's reachable:
+   `unity status` should say **ready**. Headless runs (`unity test`) need the
+   Editor *closed* for that project; with it open, the agent uses the live
+   Editor instead.
+
+Details and every trap we hit: [references/unity-cli.md](references/unity-cli.md).
+
+#### B. Unity MCP
+
+Unity 6 ships an official MCP server in the AI Assistant package. Three steps,
+all inside the Unity Editor:
 
 ![Unity MCP setup: install com.unity.ai.assistant, open Project Settings > AI > Unity MCP Server, start the server and see claude-code connected](docs/media/unity-mcp-setup.gif)
 
@@ -112,13 +164,8 @@ Three steps, all inside the Unity Editor:
    `claude-code` appears under **Connected Clients** — approve it once and
    it shows as **Accepted**. Done.
 
-> **Using the Unity CLI?** Sign it in first (`unity auth login`) — unsigned,
-> headless tests fail on licensing and `unity open` stalls silently at Hub
-> sign-in. Then `unity pipeline install` in the project for live control.
-> Details and caveats: [references/unity-cli.md](references/unity-cli.md).
-
-> **No Unity MCP? You can still use everything.** The `verify` skill switches
-> to a guided manual protocol (it tells you exactly what to click in Unity and
+> **Neither? You can still use everything.** The `verify` skill switches to a
+> guided manual protocol (it tells you exactly what to click in Unity and
 > records your answers), and `bootstrap` generates one-shot Editor scripts
 > instead of editing scenes directly. Community MCP servers also work — see
 > [references/unity-mcp.md](references/unity-mcp.md).
@@ -270,6 +317,32 @@ Make sure the server Status is **Running** (press Start), then launch `claude`
 from the Unity **project folder**. First connection needs a one-time approval
 in the Unity settings page. If it still fails, check
 `Show Debug Logs` on the same page.
+</details>
+
+<details>
+<summary><code>unity status</code> says no Editor instances (<code>STATUS_NO_INSTANCES</code>)</summary>
+
+Either no Editor is open for the project, the Pipeline package is missing
+(`unity pipeline install`), or the Editor is still loading — give it ~30s. If
+you launched with `unity open` while signed out, Hub is sitting on its sign-in
+screen and the Editor never started: run `unity auth login`. Don't detect the
+Editor by process name — the CLI's own auth broker is also called `unity`.
+</details>
+
+<details>
+<summary><code>unity test</code> exits <code>6</code> right away</summary>
+
+`6` means "no verdict", never "tests failed" (that's `8`). The two causes we hit:
+`EDITOR_LICENSING_FAILURE` (CLI not signed in — `unity auth login`), and
+*"already open in a running Editor"* — headless runs need that project's Editor
+closed. With the Editor open, the agent runs tests through it instead.
+</details>
+
+<details>
+<summary><code>unity command quit</code> fails with a <code>DontDestroyOnLoad</code> error</summary>
+
+A bug in `com.unity.pipeline` `0.8.0-exp.1`: the quit command fails in edit
+mode. Close the Editor normally.
 </details>
 
 ---
