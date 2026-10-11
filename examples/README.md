@@ -23,16 +23,12 @@ loop onto the Unity CLI: sign-in traps, a guard marker that two Unity behaviors
 defeated, an exit from v0.3.0's play-mode deadlock, and the agent breaking its
 own rule an hour after writing it.
 
-## Primitive-only sample project (planned — v1.0)
+## Reference project
 
-A runnable Unity 6 example will live here:
-
-```text
-Capsule = Player
-Cube    = Enemy
-Plane   = Ground
-Sphere  = Pickup
-```
-
-No external assets, no Asset Store content — fully redistributable under MIT
-and runs from a fresh Unity 6 install.
+There is no toy sample. The example is a real game built with this workflow:
+**[MousePotatoGames/RBB-public](https://github.com/MousePotatoGames/RBB-public)**.
+Look at its `Docs/` tree for what the workflow actually produces: design docs
+with rule IDs, Feature Specs, verification reports that separate `VERIFIED` from
+`INFERRED`, and playtest records. A primitive-shapes demo was planned and
+dropped. It would have shown less than a real project and still needed
+maintaining.

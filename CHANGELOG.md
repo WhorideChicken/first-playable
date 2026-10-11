@@ -6,9 +6,31 @@ versioning follows [SemVer](https://semver.org/) (0.x may break between minors).
 
 ## [Unreleased]
 
-### Planned
-- v0.5: playtest → spec feedback loop refinement
-- v1.0: primitive-only example project, Windows/macOS validation, release automation
+Maintenance mode: changes come from real use (see CONTRIBUTING.md).
+
+## [1.0.0] - 2026-10-12
+
+The finish line for planned work. After this, the plugin changes only when real
+use finds a problem.
+
+### Added
+- **`/first-playable:adopt`**: the side door for games already in development.
+  It inventories the project, then recovers design rules from existing code as
+  `PROPOSED` with file:line sources for the user to confirm or flag as bugs. It
+  backfills only the systems the next features touch, and installs the safety
+  pieces without restructuring. Not yet field-tested beyond the author's project
+- `references/unity-cli.md`: `simulate_pointer` clicks UGUI buttons and,
+  unlike `simulate_key`, produces press edges. Verified on F13's mouse card
+  pick, 6 of 7 clicks; the one miss didn't reproduce and is left unexplained
+
+### Changed
+- Scope frozen. Dropped from the old roadmap: the v0.5 playtest milestone
+  (already working in practice), a primitive example project (the public
+  RBB-public game is the example), macOS validation (untested, reports
+  welcome), and release automation (not needed for a Markdown plugin)
+- README: "new game vs existing game" entry points, eight skills, known limits,
+  after-1.0 maintenance policy
+- `bootstrap` points mid-development projects to `adopt`
 
 ## [0.4.3] - 2026-10-12
 

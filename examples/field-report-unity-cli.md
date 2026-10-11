@@ -74,7 +74,7 @@ rule-ID traceability survives into CI. Live in the open Editor:
 | `set_autotick` | on by default; it hid `runInBackground = false` (frames advanced) | switched off mid-play, frames froze, and switching it back on didn't recover them. A2's rule stands |
 | `capture_game_view` | captured the game with every window minimized, so D3 is handled | `--save_path Temp/x.png` wrote to `Assets/Temp/` and created an imported asset; cleaned up with `delete_asset` |
 
-`simulate_pointer` is still unexercised. Overlay-UI capture was confirmed later
+`simulate_pointer` was exercised on F13's mouse card pick: it clicked UGUI buttons correctly at all three card positions, produced proper press edges (unlike `simulate_key`), and selected the right card 6 times out of 7. One first click had no effect, didn't reproduce under the same conditions, and is recorded as unexplained rather than blamed on either side. Overlay-UI capture was confirmed later
 (a full Screen Space – Overlay level-up screen).
 
 **`simulate_key` can't press a button (v0.4.3).** Verifying F13's keyboard card

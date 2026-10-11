@@ -15,6 +15,12 @@ contributions right now are **real-world usage reports**.
 4. **Unity coverage.** Testing bootstrap/verify against different Unity 6
    setups (URP/HDRP/Built-in, different MCP servers) and documenting results.
 
+## Maintenance policy (since 1.0)
+
+Changes come from real use. A pull request that fixes something should point
+to what actually happened (an issue, a field report, a reproduction). Features
+nobody has needed in practice stay as issues.
+
 ## Releasing
 
 **Bump `version` in `.claude-plugin/plugin.json` for every content change**,

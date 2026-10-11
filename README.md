@@ -2,7 +2,7 @@
 
 **An AI-assisted workflow that turns game ideas into tested, playable Unity builds.**
 
-[![Version](https://img.shields.io/badge/version-0.4.3-blue)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.0.0-blue)](CHANGELOG.md)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![Claude Code Plugin](https://img.shields.io/badge/Claude%20Code-plugin-8A63D2)](https://claude.com/claude-code)
 
@@ -30,7 +30,7 @@ run — and your own hands on the keyboard.
   - [2. Connect Unity (optional, needed from Phase 4)](#2-connect-unity-optional-needed-from-phase-4)
   - [3. Start designing](#3-start-designing)
 - [Keeping it updated](#keeping-it-updated)
-- [The seven skills](#the-seven-skills)
+- [The skills](#the-skills)
 - [Core principles](#core-principles)
 - [Troubleshooting](#troubleshooting)
 - [Roadmap](#roadmap)
@@ -82,7 +82,7 @@ claude plugin install first-playable
 
 **Check it worked:** run `claude plugin list` — you should see
 `first-playable@first-playable · enabled`. Then open `claude` in any folder and
-type `/first-playable` — seven skills should autocomplete.
+type `/first-playable`. Eight skills should autocomplete.
 
 This is a **user-level install**: it works in every project on your machine,
 for your OS user account. No per-project setup needed.
@@ -170,9 +170,9 @@ all inside the Unity Editor:
 > instead of editing scenes directly. Community MCP servers also work — see
 > [references/unity-mcp.md](references/unity-mcp.md).
 
-### 3. Start designing
+### 3. Start — new game or existing game
 
-Open `claude` anywhere and describe your game:
+**New game** (idea stage, or a fresh project): open `claude` anywhere and describe it.
 
 ```text
 /first-playable:design
@@ -181,6 +181,19 @@ Open `claude` anywhere and describe your game:
 The AI interviews you (3–5 questions at a time), writes your answers into
 design documents, and labels every statement as **your decision** or **its
 suggestion**. From there, each phase tells you what command comes next.
+
+**Game already in development?** Open `claude` in the Unity project instead:
+
+```text
+/first-playable:adopt
+```
+
+It inventories the project, recovers the rules from your existing code as
+`PROPOSED` (each with a file:line source) for you to confirm or flag as a bug,
+and installs the safety pieces without moving anything. It only documents the
+systems your next features touch. Then you continue with `feature → verify →
+playtest` as usual. *(New in 1.0, not yet field-tested beyond its author's
+project.)*
 
 ---
 
@@ -204,7 +217,7 @@ claude plugin update first-playable@first-playable
 
 ---
 
-## The seven skills
+## The skills
 
 | Command | What it does | You get |
 |---|---|---|
@@ -212,6 +225,7 @@ claude plugin update first-playable@first-playable
 | `/first-playable:review-design` | Hunts contradictions, missing decisions, scope creep — **before** any code | `DESIGN_REVIEW.md` with an explicit approval gate |
 | `/first-playable:scope` | Cuts the game down to the smallest build that proves the fun | `FIRST_PLAYABLE.md`, dev order, falsifiable playtest hypotheses |
 | `/first-playable:bootstrap` | Sets up folders, scenes, asmdefs, project rules — **always dry-runs first** | a safe, idempotent Unity project skeleton + `CLAUDE.md` |
+| `/first-playable:adopt` | The side door for a game already in development: inventory, rules recovered from code as `PROPOSED`, safety pieces — **no restructuring** | `Docs/Adoption/INVENTORY.md`, backfilled `Docs/Game/` for the systems you'll touch next |
 | `/first-playable:feature <name>` | Writes a spec, waits for your approval, then implements with tests | `Docs/Features/<name>.md`, pure-logic code, EditMode/PlayMode tests |
 | `/first-playable:verify <name>` | Compile → console → tests → real scene run, honestly labeled | a verification report separating facts from judgment calls |
 | `/first-playable:playtest` | Turns "it feels slippery" into hypotheses and a one-variable experiment | `Docs/Playtests/` records that feed back into specs |
@@ -351,12 +365,32 @@ mode. Close the Editor normally.
 
 | Version | Scope | Status |
 |---|---|---|
-| v0.1 | Design interview, review, scoping, templates | ✅ done |
-| v0.2 | Unity references, asmdef templates, unity-guard hook, official Unity MCP setup docs | ✅ done |
-| v0.3 | Hardening from a real Unity 6 project run: play-mode deadlock guard, evidence rules for instrumented measurements, vacuous-test detection | ✅ done |
-| v0.4 | Unity CLI as a second transport, validated on the same project; guard marker fixed for test runs | ✅ done |
-| v0.5 | Playtest structuring and spec feedback loop | 🔜 next |
-| v1.0 | Primitive-only example project, Windows/macOS validation, release automation | planned |
+| v0.1 | Design interview, review, scoping, templates | ✅ |
+| v0.2 | Unity references, asmdef templates, unity-guard hook, Unity MCP setup | ✅ |
+| v0.3 | Hardening from a real Unity 6 project: play-mode deadlock guard, evidence rules for instrumented measurements, vacuous-test detection | ✅ |
+| v0.4 | Unity CLI as a second transport, validated on the same project | ✅ |
+| **v1.0** | `adopt` for games already in development; every input path of a real feature verified (keyboard and mouse); scope frozen | ✅ |
+
+### After 1.0: maintenance mode
+
+1.0 is the finish line for planned work. From here the plugin changes only
+when real use hits a real problem: an incident, written up the way
+[`examples/`](examples/) does it, then fixed. Feature ideas without an incident
+behind them go to issues, not to code.
+
+Deliberately not planned:
+- **A toy example project.** [RBB-public](https://github.com/MousePotatoGames/RBB-public) is the example.
+- **macOS validation.** It has not been tested on a Mac. Reports are welcome.
+- **Release automation.** A release is a version bump, a tag, and notes. See
+  [CONTRIBUTING.md](CONTRIBUTING.md).
+
+### Known limits
+
+- Validated on **Windows** only (Unity 6.5, CLI `1.0.0-beta.13`).
+- Unity CLI is beta and `com.unity.pipeline` is experimental (`0.8.0-exp.1`).
+  `simulate_key` can't produce press edges, and `unity command quit` is broken.
+- The guard hook sees only Claude's Edit/Write tools. Files written from a shell bypass it.
+- `adopt` is new in 1.0 and has not yet been used on a project other than its author's.
 
 Details in [CHANGELOG.md](CHANGELOG.md). Want to help? See
 [CONTRIBUTING.md](CONTRIBUTING.md) — real-world usage reports are the most

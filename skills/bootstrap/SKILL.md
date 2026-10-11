@@ -48,7 +48,9 @@ Report each as pass/fail/unknown before proposing changes:
 
 Starting from nothing (no Unity project yet)? That is out of scope here —
 hand off to Unity's own `new-unity-project` skill, then run bootstrap on the
-result.
+result. Game already in development (real code, its own folder layout)? Use
+`/first-playable:adopt` instead. It runs only the preflight and blocking checks
+below and never imposes this skill's folder structure.
 
 ### Blocking checks (fix these, don't just warn)
 
