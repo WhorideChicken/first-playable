@@ -7,8 +7,36 @@ versioning follows [SemVer](https://semver.org/) (0.x may break between minors).
 ## [Unreleased]
 
 ### Planned
-- v0.4: playtest → spec feedback loop refinement
+- v0.5: playtest → spec feedback loop refinement
 - v1.0: primitive-only example project, Windows/macOS validation, release automation
+
+## [0.4.0] - 2026-10-11
+
+Unity CLI support, validated on the same Unity 6 project as v0.3.0. Not an
+overhaul: the CLI is a second transport next to MCP. Every item below was
+observed — see `examples/field-report-unity-cli.md`.
+
+### Added
+- `references/unity-cli.md`: headless vs live modes, sign-in as preflight #1,
+  test exit codes mapped to evidence labels (`0` / `8` failing / `6` no verdict),
+  the play-mode deadlock exits (`editor_stop`, `cancel_tests` during test runs),
+  console-buffer vs Editor-count, PowerShell 5.1 quoting, tools that retire
+  v0.3.0 workarounds
+- `examples/field-report-unity-cli.md`
+
+### Changed
+- `PlayModeMarker.cs`: write on `ExitingEditMode` (an agent's `editor_play`
+  returned before `EnteredPlayMode` fired), and re-create the marker every tick
+  while playing (a PlayMode test run start removed it). Verified for a full
+  133-test run. **Re-copy it into existing projects.**
+- `verify`: PlayMode test runs count as play mode; the no-edit rule covers every
+  write path, not just the tools the hook sees; read the CLI console buffer for
+  new errors; `unity test` exit codes as verdicts
+- `bootstrap`: CLI preflight (installed / signed in / pipeline package); brand-new
+  projects hand off to Unity's own `new-unity-project` skill
+- `unity-guard`: message names the CLI escape
+- `hooks/README.md`: play-mode row added; documents that shell writes bypass the hook
+- `references/unity-testing.md`: raw `-batchmode -runTests` replaced by `unity test`
 
 ## [0.3.1] - 2026-08-01
 

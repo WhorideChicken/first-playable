@@ -2,7 +2,7 @@
 
 **An AI-assisted workflow that turns game ideas into tested, playable Unity builds.**
 
-[![Version](https://img.shields.io/badge/version-0.3.1-blue)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-0.4.0-blue)](CHANGELOG.md)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![Claude Code Plugin](https://img.shields.io/badge/Claude%20Code-plugin-8A63D2)](https://claude.com/claude-code)
 
@@ -67,6 +67,7 @@ Unity project.
 | [Claude Code](https://claude.com/claude-code) | everything | CLI, desktop app, or IDE extension |
 | Unity 6 | Phases 4–7 | design phases (1–3) work without Unity |
 | Unity MCP server | Phases 4–7 | official path built into Unity — setup below |
+| Unity CLI *(optional, beta)* | Phases 4–7 | verdict-bearing test runs + an exit from the play-mode deadlock — [references/unity-cli.md](references/unity-cli.md) |
 
 ### 1. Install the plugin
 
@@ -110,6 +111,11 @@ Three steps, all inside the Unity Editor:
    Run `claude` in your Unity project folder. Within a few seconds,
    `claude-code` appears under **Connected Clients** — approve it once and
    it shows as **Accepted**. Done.
+
+> **Using the Unity CLI?** Sign it in first (`unity auth login`) — unsigned,
+> headless tests fail on licensing and `unity open` stalls silently at Hub
+> sign-in. Then `unity pipeline install` in the project for live control.
+> Details and caveats: [references/unity-cli.md](references/unity-cli.md).
 
 > **No Unity MCP? You can still use everything.** The `verify` skill switches
 > to a guided manual protocol (it tells you exactly what to click in Unity and
@@ -218,7 +224,9 @@ where six of eight incidents were *passing checks with wrong conclusions* —
 including one measurement that concluded the exact opposite of what a human
 found in 30 seconds of play.
 
-📋 **[Read the field report](examples/field-report-unity-6.md)** — the
+📋 **[Read the field report](examples/field-report-unity-6.md)** · and the
+**[Unity CLI follow-up](examples/field-report-unity-cli.md)**, where the agent
+broke its own play-mode rule an hour after writing it — the
 incidents, the costs, and what each one changed.
 
 ---
@@ -273,7 +281,8 @@ in the Unity settings page. If it still fails, check
 | v0.1 | Design interview, review, scoping, templates | ✅ done |
 | v0.2 | Unity references, asmdef templates, unity-guard hook, official Unity MCP setup docs | ✅ done |
 | v0.3 | Hardening from a real Unity 6 project run: play-mode deadlock guard, evidence rules for instrumented measurements, vacuous-test detection | ✅ done |
-| v0.4 | Playtest structuring and spec feedback loop | 🔜 next |
+| v0.4 | Unity CLI as a second transport, validated on the same project; guard marker fixed for test runs | ✅ done |
+| v0.5 | Playtest structuring and spec feedback loop | 🔜 next |
 | v1.0 | Primitive-only example project, Windows/macOS validation, release automation | planned |
 
 Details in [CHANGELOG.md](CHANGELOG.md). Want to help? See

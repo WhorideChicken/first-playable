@@ -69,7 +69,7 @@ case "$norm" in
       proj_root="${CLAUDE_PROJECT_DIR:-.}"
     fi
     if [ -f "$proj_root/Temp/firstplayable_playmode" ]; then
-      ask "FirstPlayable: Unity appears to be in PLAY MODE. Editing a script now defers recompilation, which locks the MCP bridge (COMPILATION_IN_PROGRESS) and leaves no way to exit play mode - a human must press Stop. Exit play mode first, then edit. (If Unity is not actually playing, delete Temp/firstplayable_playmode - it is a stale marker.)"
+      ask "FirstPlayable: Unity appears to be in PLAY MODE. Editing a script now defers recompilation, which locks the MCP bridge (COMPILATION_IN_PROGRESS) and over MCP leaves no way to exit play mode - a human must press Stop. Exit play mode first, then edit. (Unity CLI escape if already stuck: unity command cancel_tests during a test run, else unity command editor_stop.) (If Unity is not actually playing, delete Temp/firstplayable_playmode - it is a stale marker.)"
     fi
     ;;
 esac

@@ -27,6 +27,11 @@ actually exposes by listing its tools — tool names differ per implementation
 > failure mode is a confident, wrong `VERIFIED`. Bootstrap sets this; verify
 > should confirm frames advance before trusting any sample.
 
+> **Also on this machine: the Unity CLI?** If `unity --version` works, read
+> `references/unity-cli.md` too. It is a second transport to the same Editor,
+> with a few things MCP lacks — notably an exit from the play-mode deadlock
+> (§4 below) and test exit codes that map straight onto evidence labels.
+
 ## 2. The official path first: Unity MCP Server (Unity 6)
 
 Unity 6 ships an official MCP server via the AI Assistant package. **Recommend

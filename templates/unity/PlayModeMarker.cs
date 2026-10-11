@@ -29,20 +29,34 @@ namespace Game.Editor
                 Clear();
 
             EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
+            EditorApplication.update += Heal;
         }
 
         private static void OnPlayModeStateChanged(PlayModeStateChange state)
         {
-            switch (state)
-            {
-                case PlayModeStateChange.EnteredPlayMode:
-                    Directory.CreateDirectory("Temp");
-                    File.WriteAllText(MarkerPath, "1");
-                    break;
-                case PlayModeStateChange.ExitingPlayMode:
-                    Clear();
-                    break;
-            }
+            // Write BEFORE play mode starts, not on EnteredPlayMode: an agent's
+            // "enter play mode" call can return seconds before EnteredPlayMode
+            // fires, and the guard would be blind for that window.
+            if (state == PlayModeStateChange.ExitingEditMode)
+                Write();
+            // Covers both a normal exit and an aborted entry (e.g. compile errors).
+            else if (state == PlayModeStateChange.EnteredEditMode)
+                Clear();
+        }
+
+        // Starting a PlayMode test run removed the marker after it was written
+        // (observed with Unity 6.5 + Test Framework 1.7; the deleter was not
+        // identified). Re-create it whenever play mode is on and it is missing.
+        private static void Heal()
+        {
+            if (EditorApplication.isPlaying && !File.Exists(MarkerPath))
+                Write();
+        }
+
+        private static void Write()
+        {
+            Directory.CreateDirectory("Temp");
+            File.WriteAllText(MarkerPath, "1");
         }
 
         private static void Clear()

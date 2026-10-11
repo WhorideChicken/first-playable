@@ -15,6 +15,11 @@ for reload/compile gaps, and the **manual verification protocol** to use when
 no MCP is available (guided user steps recorded as `VERIFIED (user-reported)`,
 never silent skips). Test-running details are in `references/unity-testing.md`.
 
+If `unity --version` works, also read `references/unity-cli.md`. The CLI gives
+verdict-bearing test exit codes, explicit editor state, and an exit from the
+play-mode deadlock. Use whichever transport is connected; the ladder and the
+evidence rules below are the same for both.
+
 ## Hard rule: never edit code while play mode is running
 
 Entering play mode and then editing a script deadlocks the session: Unity
@@ -27,14 +32,24 @@ exit play mode  →  edit  →  wait for compile  →  re-enter play mode
 ```
 
 This applies to instrumentation scripts too — write them *before* entering
-play mode, not while observing. (The `unity-guard` hook will ask if the
-play-mode marker from bootstrap is present, but do not rely on the hook.)
+play mode, not while observing. **PlayMode test runs are play mode** — no edits
+while `run_tests` is running either. And it applies to *every* write path: the
+`unity-guard` hook only sees the Edit/Write tools, so a file written from a
+shell (`sed`, `python`, `Set-Content`) walks straight past it.
+
+If you end up in the deadlock anyway and the Unity CLI is connected, there is
+an exit (see `references/unity-cli.md` §4): `unity command cancel_tests` if a
+test run is in progress, otherwise `unity command editor_stop`. Over MCP only,
+the user must press Stop.
 
 ## Verification ladder
 
 1. Confirm Unity MCP connection (if unavailable, switch to the manual protocol from `references/unity-mcp.md`)
 2. Wait for Unity compilation to finish
-3. Check for **new** Console errors (diff against pre-change state, not absolute zero)
+3. Check for **new** Console errors (diff against pre-change state, not absolute zero).
+   The Editor console can be cleared by a recompile; errors logged mid-reload
+   then vanish from its count. Over the CLI, read the captured buffer
+   (`unity command console --level error`), not only the current count
 4. Check warnings — **mandatory, not optional.** Font/glyph, missing-reference,
    and serialization warnings are how rendering and wiring defects surface;
    tests routinely pass while these fail (see UI rule below)
@@ -59,7 +74,10 @@ Label every claim in the report:
 | `MANUAL_REQUIRED` | Only a human playing can judge this |
 
 Never present `INFERRED` as `VERIFIED`. If a test could not run, that is
-`UNVERIFIED` with a reason — not a pass.
+`UNVERIFIED` with a reason — not a pass. With `unity test` this is mechanical:
+exit `0` passed, exit `8` ran and failed (a real result — report it, don't
+retry it green), exit `6` produced no verdict (`UNVERIFIED`, cite
+`errors[0].code`).
 
 ### Runtime instrumentation: state the conditions, or it isn't VERIFIED
 

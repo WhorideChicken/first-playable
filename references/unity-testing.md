@@ -46,9 +46,11 @@ explicit reference. For a First Playable, simple custom structs are fine.
   rule IDs**: `Move001_GroundedInput_MovesCameraRelative`,
   `Move001_Knockback_SuppressesInput`.
 - Fast, no scene, no frames. This is where the bulk of coverage goes.
-- Run via MCP, or `Window → General → Test Runner → EditMode` manually, or CLI:
-  `Unity -batchmode -runTests -testPlatform EditMode -projectPath . -testResults results.xml`
-  (CLI requires the Editor to be closed).
+- Run via MCP, or `Window → General → Test Runner → EditMode` manually, or the
+  Unity CLI: `unity test . --mode EditMode --report-format junit --output results.xml`
+  (Editor closed; CLI signed in). Its exit code is the verdict: `0` pass, `8`
+  ran-and-failed, `6` no verdict — see `references/unity-cli.md` §3. With the
+  Editor open, use the CLI's live `run_tests` instead.
 
 ## 3. PlayMode tests
 

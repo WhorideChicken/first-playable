@@ -39,7 +39,16 @@ Report each as pass/fail/unknown before proposing changes:
 - Git repository and a Unity-appropriate `.gitignore`?
 - Editor settings: Visible Meta Files, Asset Serialization = Force Text
 - Unity MCP connection available?
+- Unity CLI available (`unity --version`)? If so: signed in
+  (`unity auth status --json` → `loggedIn`)? `com.unity.pipeline` present for
+  live control? Not signed in means headless tests fail on licensing and
+  `unity open` stalls silently at Hub sign-in — see `references/unity-cli.md` §1.
+  Sign-in is the user's to do (browser OAuth).
 - Existing scenes and asmdefs that could conflict
+
+Starting from nothing (no Unity project yet)? That is out of scope here —
+hand off to Unity's own `new-unity-project` skill, then run bootstrap on the
+result.
 
 ### Blocking checks (fix these, don't just warn)
 

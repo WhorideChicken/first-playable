@@ -16,6 +16,13 @@ including the [original operations log](https://github.com/MousePotatoGames/RBB-
 (Korean) and the `Docs/` tree this workflow generates in practice
 (game design, feature specs, verification reports, playtest records).
 
+## Field report — Unity CLI (v0.4.0)
+
+**[field-report-unity-cli.md](field-report-unity-cli.md)** — moving the verify
+loop onto the Unity CLI: sign-in traps, a guard marker that two Unity behaviors
+defeated, an exit from v0.3.0's play-mode deadlock, and the agent breaking its
+own rule an hour after writing it.
+
 ## Primitive-only sample project (planned — v1.0)
 
 A runnable Unity 6 example will live here:
