@@ -96,6 +96,12 @@ Rules:
    conditions for X". Label it `UNVERIFIED` and put it in Manual Verification.
 3. If a measurement contradicts what you expected from the code, suspect the
    measurement setup before rewriting the conclusion.
+4. Over the Unity CLI you can close the gap: hold real input with
+   `unity command simulate_key --key <K> --action down` for the measurement
+   window, then `--action up`. State it as the condition ("measured with W
+   held 2s"). Confirm the input landed by its effect (speed, position), not by
+   reading the input action — that read back `(0, 0)` while the key was
+   clearly driving the ball. See `references/unity-cli.md` §6.
 
 ### UI text: string assertions do not verify rendering
 

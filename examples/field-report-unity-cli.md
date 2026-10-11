@@ -66,8 +66,12 @@ rule-ID traceability survives into CI. Live in the open Editor:
 - A command sent right after `editor_play` failed with *"Connection reset by
   server"* and worked on retry. Reload gaps happen here too.
 
-## Not tested
+## Follow-up: the three tools left untested in v0.4.0 (v0.4.1)
 
-`simulate_key` / `simulate_pointer` (input during instrumentation, which is what
-v0.3.0's B1 needed), `capture_game_view`, `set_autotick`. They're listed by the
-Editor but haven't been exercised, so this plugin doesn't recommend them yet.
+| Tool | Result | Trap found |
+|---|---|---|
+| `simulate_key` | **B1 now has a fix.** Ball speed 0.00 with no input, 11.87 after holding W for 2s, 0.06 two seconds after release, which is the decay that inverted v0.3.0's conclusion | reading the input action via `eval` said `(0, 0)` while the key was driving the ball |
+| `set_autotick` | on by default; it hid `runInBackground = false` (frames advanced) | switched off mid-play, frames froze, and switching it back on didn't recover them. A2's rule stands |
+| `capture_game_view` | captured the game with every window minimized, so D3 is handled | `--save_path Temp/x.png` wrote to `Assets/Temp/` and created an imported asset; cleaned up with `delete_asset` |
+
+`simulate_pointer` and overlay-UI capture are still unexercised.

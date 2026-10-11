@@ -10,6 +10,21 @@ versioning follows [SemVer](https://semver.org/) (0.x may break between minors).
 - v0.5: playtest → spec feedback loop refinement
 - v1.0: primitive-only example project, Windows/macOS validation, release automation
 
+## [0.4.1] - 2026-10-12
+
+The three Unity CLI tools v0.4.0 left untested, now run on the same project.
+
+### Added
+- `verify`: over the CLI, hold real input during instrumentation with
+  `simulate_key` (closes v0.3.0's B1), and confirm it landed by its effect.
+  Reading the input action back via `eval` returned `(0, 0)` while the key was
+  driving the ball
+- `references/unity-cli.md` §6: `simulate_key`, `set_autotick`,
+  `capture_game_view` results and traps. Auto-tick is on by default and masks
+  `runInBackground = false`, but once frames stop, re-enabling it doesn't
+  recover them, so the A2 rule stands. `capture_game_view --save_path` writes
+  under `Assets/`
+
 ## [0.4.0] - 2026-10-11
 
 Unity CLI support, validated on the same Unity 6 project as v0.3.0. Not an

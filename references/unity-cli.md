@@ -116,6 +116,9 @@ hide errors that happened mid-reload.
 | A3 — silence during reload is ambiguous | `editor_status`, `recompile_status` (`idle\|triggered\|compiling\|completed`) | explicit state; still briefly empty mid-reload, so keep the retry rule |
 | D1 — polling a result file | `run_tests --async_tests true` + `test_status` | 133 PlayMode tests, `completed` with a summary in ~73s. The status file `Temp/pipeline_test_status.json` is *absent* mid-run — read `test_status`, not the file |
 | D2 — `DeleteAsset` dialog fails | `delete_asset --asset <path> --confirm true` | deleted asset + `.meta`, no dialog; refuses without `--confirm` |
+| B1 — instrumented with no input | `simulate_key --key W --action down` … `--action up` | drives the game: planar speed 0.00 → 7.82 (0.5s) → 11.87 (2s) held, 0.06 two seconds after release. **Trap:** reading `Player/Move` via `eval` returned `(0, 0)` the whole time the key was held — check input by its *effect*, never by reading the action |
+| A2 — frames stop when unfocused | `set_autotick` | the package's auto-tick is on by default and **masked** `runInBackground = false` (frames advanced). With auto-tick turned off mid-play, frames froze at 125 — and turning it back on did **not** recover them. Keep `runInBackground = true`; don't rely on auto-tick |
+| D3 — screenshot grabbed the wrong window | `capture_game_view` | captured the game view correctly with every window minimized. **Trap:** `--save_path Temp/x.png` landed in **`Assets/Temp/x.png`** (imported, `.meta` created). Omit `--save_path` for an inline image, or delete the result with `delete_asset`. Overlay-UI inclusion not yet seen in a frame |
 
 Discover the rest with `unity list --json` (160 tools on this Editor). Names are
 defined by the package version — list them, don't assume.
