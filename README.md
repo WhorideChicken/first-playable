@@ -2,7 +2,7 @@
 
 **An AI-assisted workflow that turns game ideas into tested, playable Unity builds.**
 
-[![Version](https://img.shields.io/badge/version-0.4.2-blue)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-0.4.3-blue)](CHANGELOG.md)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![Claude Code Plugin](https://img.shields.io/badge/Claude%20Code-plugin-8A63D2)](https://claude.com/claude-code)
 
@@ -96,7 +96,7 @@ both — they coexist, and nothing in the workflow requires a particular one.
 |---|---|---|
 | Test results | the exit code *is* the verdict: `0` passed, `8` ran and failed, `6` no verdict | read back from the Editor |
 | Stuck in play mode with a pending recompile | `editor_stop` / `cancel_tests` gets out | only a human pressing Stop |
-| Runtime checks | `simulate_key` holds real input; `capture_game_view` grabs the game even when Unity is minimized | via the Editor tools you enable |
+| Runtime checks | `simulate_key` holds real input (not press edges — see [unity-cli.md](references/unity-cli.md) §6); `capture_game_view` grabs the game incl. overlay UI, even with Unity minimized | via the Editor tools you enable |
 | Maturity | CLI `1.0.0-beta` + experimental `com.unity.pipeline` | official AI Assistant package (pre-release) |
 
 **Recommendation:** use the CLI for verification — every advantage above was

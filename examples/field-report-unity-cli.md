@@ -74,7 +74,18 @@ rule-ID traceability survives into CI. Live in the open Editor:
 | `set_autotick` | on by default; it hid `runInBackground = false` (frames advanced) | switched off mid-play, frames froze, and switching it back on didn't recover them. A2's rule stands |
 | `capture_game_view` | captured the game with every window minimized, so D3 is handled | `--save_path Temp/x.png` wrote to `Assets/Temp/` and created an imported asset; cleaned up with `delete_asset` |
 
-`simulate_pointer` and overlay-UI capture are still unexercised.
+`simulate_pointer` is still unexercised. Overlay-UI capture was confirmed later
+(a full Screen Space – Overlay level-up screen).
+
+**`simulate_key` can't press a button (v0.4.3).** Verifying F13's keyboard card
+pick (1/2/3), every `simulate_key` attempt did nothing. Before writing "B11 is
+broken", the cause was isolated: the key reached `Keyboard.current`
+(`isPressed=True`), but `wasPressedThisFrame` was never `True` across 99 updates,
+while release edges registered. The same game code passed every time with
+`InputSystem.QueueStateEvent`: Digit1/2/3 each picked the right card, and a
+Digit4 control press registered and was correctly ignored. Concluding from the
+first instrument would have repeated v0.3.0's B1, a negative verdict that
+really came from failing to create the conditions.
 
 Found while recording the README setup GIF (v0.4.2): `unity command quit`
 fails in edit mode (`DontDestroyOnLoad` error inside the package), and a

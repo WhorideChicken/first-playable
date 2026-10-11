@@ -10,6 +10,18 @@ versioning follows [SemVer](https://semver.org/) (0.x may break between minors).
 - v0.5: playtest → spec feedback loop refinement
 - v1.0: primitive-only example project, Windows/macOS validation, release automation
 
+## [0.4.3] - 2026-10-12
+
+Found while verifying a real feature (F13 keyboard card pick) with the CLI.
+
+### Changed
+- `references/unity-cli.md` / `verify`: `simulate_key` covers *held* input only.
+  It never produces a press edge (`wasPressedThisFrame` stayed `False` for 99
+  updates while `isPressed` was `True`), so edge-triggered input needs
+  `InputSystem.QueueStateEvent` via `eval_file`. A silent `simulate_key` on such
+  code is the tool, not a verdict
+- `capture_game_view` confirmed to include Screen Space – Overlay UI
+
 ## [0.4.2] - 2026-10-12
 
 ### Changed

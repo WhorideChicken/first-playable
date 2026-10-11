@@ -101,7 +101,11 @@ Rules:
    window, then `--action up`. State it as the condition ("measured with W
    held 2s"). Confirm the input landed by its effect (speed, position), not by
    reading the input action — that read back `(0, 0)` while the key was
-   clearly driving the ball. See `references/unity-cli.md` §6.
+   clearly driving the ball. `simulate_key` only covers *held* input: it never
+   produces a press edge, so code using `wasPressedThisFrame` (menus, choices,
+   jump) needs `InputSystem.QueueStateEvent` via `eval_file` instead. If an
+   edge-triggered input "does nothing" under `simulate_key`, that is the tool,
+   not a verdict. See `references/unity-cli.md` §6.
 
 ### UI text: string assertions do not verify rendering
 
